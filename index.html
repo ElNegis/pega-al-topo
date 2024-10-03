@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golpear al Topo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Juego Golpear al Topo</h1>
+    <p>Jugador: <span id="nombre-jugador"></span></p>
+    <div class="stats">
+        <p>Topos golpeados: <span id="golpes">0</span></p>
+        <p>Topos no golpeados: <span id="no-golpeados">0</span></p>
+        <p>Tiempo restante: <span id="tiempo">15:00</span></p>
+    </div>
+    <div class="grid" id="grid">
+        <button onclick="golpear(0)">Golpear</button>
+        <button onclick="golpear(1)">Golpear</button>
+        <button onclick="golpear(2)">Golpear</button>
+        <button onclick="golpear(3)">Golpear</button>
+        <button onclick="golpear(4)">Golpear</button>
+        <button onclick="golpear(5)">Golpear</button>
+        <button onclick="golpear(6)">Golpear</button>
+        <button onclick="golpear(7)">Golpear</button>
+        <button onclick="golpear(8)">Golpear</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
