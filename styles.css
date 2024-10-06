@@ -1,23 +1,58 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #757579;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.stats {
+    margin-top: 20px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(3, 120px); /* Tres columnas de 120px */
+    grid-template-rows: repeat(3, 120px);    /* Tres filas de 120px */
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
 }
 
 .grid button {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     font-size: 18px;
+    cursor: pointer;
+    background-color: #966464;
+    border: 2px solid #ccc;
+    border-radius: 8px;
 }
 
-.stats {
-    margin-top: 20px;
+.grid button:hover {
+    background-color: #b0c4de;
+}
+
+.controls {
+    margin-top: 30px;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
 }
