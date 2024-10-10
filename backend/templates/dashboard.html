@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Juego</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Incluye Chart.js para gráficos -->
+</head>
+<body>
+    <h1>Estadísticas del Juego</h1>
+
+    <!-- Formulario para seleccionar un jugador -->
+    <div style="text-align: center;">
+        <label for="nombre-jugador">Nombre del jugador:</label>
+        <input type="text" id="nombre-jugador" placeholder="Escribe el nombre del jugador">
+        <button onclick="obtenerDatosJugador()">Mostrar Estadísticas</button>
+    </div>
+
+    <!-- Contenedor del gráfico de torta -->
+    <div style="width: 50%; margin: auto; margin-top: 30px;">
+        <canvas id="pieChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Formulario para seleccionar una fecha -->
+    <div style="text-align: center; margin-top: 50px;">
+        <label for="fecha-juego">Filtrar por fecha:</label>
+        <input type="date" id="fecha-juego">
+        <button onclick="obtenerDatosPorFecha()">Mostrar por Fecha</button>
+    </div>
+
+    <!-- Contenedor del gráfico de barras -->
+    <div style="width: 70%; margin: auto; margin-top: 30px;">
+        <canvas id="barChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Botón para regresar a la página principal -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="window.location.href='/';">Volver al Inicio</button>
+    </div>
+
+    <script>
+        var pieChart;
+        var barChart;
+
+        // Función para obtener los datos del jugador y mostrar el gráfico de torta
+        function obtenerDatosJugador() {
+            var nombreJugador = document.getElementById('nombre-jugador').value;
+            
+            if (!nombreJugador) {
+                alert("Por favor, ingresa el nombre del jugador");
+                return;
+            }
+
+            fetch('/datos_jugador', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre: nombreJugador })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    var golpes = data.golpes;
+                    var noGolpeados = data.no_golpeados;
+
+                    // Crear el gráfico de torta (pie chart)
+                    var ctx = document.getElementById('pieChart').getContext('2d');
+                    if (pieChart) {
+                        pieChart.destroy();  // Destruir el gráfico anterior si ya existe
+                    }
+                    pieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Golpes', 'No Golpeados'],
+                            datasets: [{
+                                data: [golpes, noGolpeados],
+                                backgroundColor: ['rgba(75, 192, 192, 0.7)', 'rgba(255, 99, 132, 0.7)'],
+                                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Función para obtener los datos de todos los jugadores y mostrar el gráfico de barras
+        function obtenerDatosPorFecha() {
+            var fechaJuego = document.getElementById('fecha-juego').value;
+
+            if (!fechaJuego) {
+                alert("Por favor, selecciona una fecha");
+                return;
+            }
+
+            fetch('/datos_jugadores_fecha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ fecha: fechaJuego })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    var jugadores = data.jugadores;
+                    var golpes = data.golpes;
+                    var noGolpeados = data.no_golpeados;  // Asegúrate de usar la variable correcta aquí
+
+                    // Crear el gráfico de barras
+                    var ctx = document.getElementById('barChart').getContext('2d');
+                    if (barChart) {
+                        barChart.destroy();  // Destruir el gráfico anterior si ya existe
+                    }
+                    barChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: jugadores,
+                            datasets: [
+                                {
+                                    label: 'Golpes',
+                                    data: golpes,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'No Golpeados',
+                                    data: noGolpeados,  // Asegúrate de usar "noGolpeados" y no "no_golpeados"
+                                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

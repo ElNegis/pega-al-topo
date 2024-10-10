@@ -74,8 +74,16 @@ function finalizarJuego() {
     clearInterval(intervalId);
     clearInterval(topoIntervalId);
 
+    // Log para verificar los datos que se envían al servidor
+    console.log({
+        nombre: jugador,
+        golpes: golpes,
+        no_golpeados: noGolpeados,
+        rondas: 10  // Cambia este valor según tu lógica de rondas
+    });
+
     // Enviar los datos del jugador actual al servidor
-    fetch('http://localhost:3306/guardar_juego', {
+    fetch('http://localhost:5000/guardar_juego', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -84,7 +92,7 @@ function finalizarJuego() {
             nombre: jugador,
             golpes: golpes,
             no_golpeados: noGolpeados,
-            tiempo: 10 - tiempoRestante
+            rondas: 10
         })
     })
     .then(response => response.json())
@@ -93,6 +101,7 @@ function finalizarJuego() {
     })
     .catch(error => console.error('Error:', error));
 }
+
 
 // Función para reiniciar el juego
 function reiniciarJuego() {

@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golpear al Topo</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Enlace a Chart.js -->
+    <!-- Referencia al archivo CSS dentro de static -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Enlace a Chart.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Juego Golpear al Topo</h1>
+    <!-- Botón que redirige al dashboard -->
+    <button onclick="window.location.href='/dashboard';">Ver Dashboard</button>
+    
+    <!-- Este es el elemento que el script busca modificar -->
     <p>Jugador: <span id="nombre-jugador">N/A</span></p>
+
     <div class="stats">
         <p>Topos golpeados: <span id="golpes">0</span></p>
         <p>Topos no golpeados: <span id="no-golpeados">0</span></p>
         <p>Tiempo restante: <span id="tiempo">0:10</span></p>
     </div>
     
-    <!-- Aquí están los botones para el juego -->
+    <!-- Botones para golpear al topo -->
     <div class="grid" id="grid">
         <button onclick="golpear(0)">Golpear</button>
         <button onclick="golpear(1)">Golpear</button>
@@ -29,7 +36,7 @@
         <button onclick="golpear(8)">Golpear</button>
     </div>
 
-    <!-- Botones para jugar de nuevo y dashboard -->
+    <!-- Controles adicionales -->
     <div class="controls">
         <button id="play-again" onclick="reiniciarJuego()">Jugar de nuevo</button>
         <button id="show-dashboard" onclick="mostrarDashboard()">Mostrar Dashboard</button>
@@ -37,9 +44,10 @@
 
     <!-- Canvas para el gráfico del Dashboard -->
     <div style="margin-top: 30px;">
-        <canvas id="myChart" width="400" height="200"></canvas> <!-- El gráfico -->
+        <canvas id="myChart" width="400" height="200"></canvas>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Referencia al archivo JS dentro de static -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
