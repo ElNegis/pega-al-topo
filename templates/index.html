@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Análisis de Rendimiento en Taekwondo</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .graph-container {
+            height: 500px;
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">
+            Dashboard de Análisis de Rendimiento en Taekwondo
+        </h1>
+        <!-- Filtros -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Filtros de Análisis</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Atleta</label>
+                    <select id="atleta" class="w-full p-2 border rounded-md">
+                        <option value="">Todos los atletas</option>
+                        {% for usuario in usuarios %}
+                        <option value="{{ usuario.id }}">{{ usuario.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Inicio</label>
+                    <input type="date" id="fecha_inicio" class="w-full p-2 border rounded-md">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Fin</label>
+                    <input type="date" id="fecha_fin" class="w-full p-2 border rounded-md">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="actualizarGraficos()" 
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                        Actualizar Análisis
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Grid de gráficos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Sesiones por Usuario -->
+            <div class="graph-container">
+                <div id="grafico_sesiones"></div>
+            </div>
+            <!-- Velocidad de Reacción -->
+            <div class="graph-container">
+                <div id="grafico_velocidad"></div>
+            </div>
+            <!-- Distribución de Golpes -->
+            <div class="graph-container">
+                <div id="grafico_golpes"></div>
+            </div>
+            <!-- Progreso del Atleta -->
+            <div class="graph-container">
+                <div id="grafico_progreso"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para actualizar los gráficos
+        function actualizarGraficos() {
+            const atleta = document.getElementById('atleta').value;
+            const fechaInicio = document.getElementById('fecha_inicio').value;
+            const fechaFin = document.getElementById('fecha_fin').value;
+
+            fetch(`/datos_grafico?atleta=${atleta}&fecha_inicio=${fechaInicio}&fecha_fin=${fechaFin}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Actualizar cada gráfico
+                    Plotly.newPlot('grafico_sesiones', JSON.parse(data.sesiones_por_usuario));
+                    Plotly.newPlot('grafico_velocidad', JSON.parse(data.velocidad_reaccion));
+                    Plotly.newPlot('grafico_golpes', JSON.parse(data.distribucion_golpes));
+                    Plotly.newPlot('grafico_progreso', JSON.parse(data.progreso_atleta));
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Cargar gráficos iniciales cuando se carga la página
+        document.addEventListener('DOMContentLoaded', actualizarGraficos);
+    </script>
+</body>
+</html>
