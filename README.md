@@ -19,7 +19,7 @@ Un sistema interactivo de entrenamiento en Taekwondo que utiliza sensores y micr
 - [Modos de Entrenamiento](#modos-de-entrenamiento)
 - [Diagrama de Flujo](#diagrama-de-flujo)
 - [Contribuir](#contribuir)
-- [Licencia](#licencia)
+
 
 ## 📖 Descripción
 
