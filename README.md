@@ -4,6 +4,9 @@
 [![MicroPython](https://img.shields.io/badge/MicroPython-Compatible-green.svg)](https://micropython.org/)
 
 Un sistema interactivo de entrenamiento en Taekwondo que utiliza sensores y microcontroladores para detectar golpes, medir tiempos de reacción y realizar seguimiento del progreso del deportista en tiempo real.
+## 📝 Wokwi
+[Una version simple en wokwi](https://wokwi.com/projects/413580154033774593)
+
 
 ## 📝 Tabla de Contenidos
 
@@ -34,17 +37,6 @@ Este innovador sistema de entrenamiento en Taekwondo permite a los practicantes 
 - Sistema de LED RGB para indicación visual de objetivos
 - Almacenamiento y análisis de datos en la nube
 - Compatible con ESP32 y Raspberry Pi Pico W
-
-## 🛠 Componentes
-
-El proyecto está compuesto por los siguientes archivos principales:
-
-```
-├── tkd_training-enhanced-esp32.py   # Script principal
-├── Wifi_lib.py                      # Configuración Wi-Fi
-├── secrets.py                       # Credenciales Wi-Fi
-└── server/                          # Backend para datos
-```
 
 ## 📋 Requisitos
 
